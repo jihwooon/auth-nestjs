@@ -1,0 +1,47 @@
+services:
+  db:
+    container_name: nestjs-db
+    image: mysql:8.0.22
+    platform: linux/x86_64
+    environment:
+      TZ: Asia/Seoul
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    env_file:
+      - ./.env.dev
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/config:/etc/mysql/conf.d
+    networks:
+      - nest
+  api:
+    container_name: nestjs-dev
+    image: nestjs-dev
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    env_file:
+      - ./.env.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 8082:3333
+    networks:
+      - nest
+    depends_on:
+      - db
+    command: npx nest start --watch
+
+networks:
+  nest:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local

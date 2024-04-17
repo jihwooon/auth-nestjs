@@ -1,0 +1,15 @@
+services:
+  prod:
+    container_name: nestjs-prod
+    image: nestjs-prod
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 8083:8888
+
