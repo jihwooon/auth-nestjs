@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HealthController } from './health/health.controller';
+import { HealthController } from './api/health/health.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './domain/users/users.module';
+import { KakaoModule } from './web/kakaotoken/kakao.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
       },
     }),
     UsersModule,
+    KakaoModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

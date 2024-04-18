@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { PORT } from './config/setting';
+import { PORT } from './global/config/setting';
 import * as process from 'node:process';
 
 async function bootstrap() {
